@@ -45,9 +45,9 @@ const UserSchema: Schema = new Schema(
 
 UserSchema.plugin(toJSON);
 
-UserSchema.pre('save', function preSaveFunction(this: IUser, next) {
+UserSchema.pre('save', async function preSaveFunction(this: IUser, next) {
     if (this.isNew || this.isModified('password')) {
-        this.password = bcryptjs.hashSync(this.password, 10);
+        this.password = await bcryptjs.hash(this.password, 10);
     }
     next();
 });

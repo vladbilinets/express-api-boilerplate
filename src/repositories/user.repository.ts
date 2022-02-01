@@ -9,7 +9,7 @@ const getUserByEmailAndPassword = async (
     password: IUser['password'],
 ) => {
     const user = await User.findOne({ email }).select('+password').exec();
-    if (!user || !bcryptjs.compareSync(password, user.password)) {
+    if (!user || !(await bcryptjs.compare(password, user.password))) {
         return null;
     }
     return user;
