@@ -17,9 +17,7 @@ const handler = (err: BaseError, req: Request, res: Response, next: NextFunction
         message = httpStatus[httpStatus.INTERNAL_SERVER_ERROR].toString();
     }
 
-    if (index.env === 'development') {
-        logger.error(err.message, err);
-    }
+    logger.error(err.message, err);
 
     return res.status(statusCode).send({
         code: statusCode,
