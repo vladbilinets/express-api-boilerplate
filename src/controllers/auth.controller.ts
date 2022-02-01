@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
-import { User } from '../models';
 import { catchAsync, Logger } from '../utils';
 import { ApiBadRequestError } from '../utils/errors';
 import { authService, tokenService } from '../services';
@@ -23,8 +22,7 @@ const register = catchAsync(async (req: Request, res: Response) => {
     const { email, password } = req.body;
 
     try {
-        const newUser = new User({ email, password });
-        await newUser.save();
+        await authService.registerUser(email, password);
         return res.sendStatus(httpStatus.CREATED);
     } catch (error: any) {
         throw new ApiBadRequestError(error.message || 'Unable to register user');
